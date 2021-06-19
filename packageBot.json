@@ -12,8 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js-light": "^3.5.11",
-    "dbdjs.db": "^1.0.2",
-    "nhentai-api": "^3.0.2"
+    "discord.js": "^12.5.3",
+    "dbdjs.db": "^1.0.2"
   }
 }
