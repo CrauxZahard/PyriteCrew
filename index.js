@@ -4,4 +4,4 @@ client.on('ready', () => { console.log('ready') });
 client.on('message', message => {
 //do something with message
 })
-client.login('token')
+client.login('ODA3NjY1ODUzODIxNjE2MTc5.YB7TcQ.el_uD6LDVJ43QGEDQpdmCE03dv4');
