@@ -1,9 +1,10 @@
 module.exports = {
-name: 'notice',
+  name: 'notice',
   run: async (client, message, args) => {
     await message.delete();
-    const targetChannel = message.mentions.channels ? message.mentions.channels.first() : message.channel;
-    const content = targetChannel == message.channel ? args.join(' ') : args.slice(2).join(' ');
-    targetChannel.send(content);
+    const targetChannel = message.mentions.channels.first() == args[0] ? message.mentions.channels.first() : message.channel;
+    const webhook = await targetChannel.createWebhook(client.user.username, { avatar: client.user.avatar });
+    const content = message.mentions.channels.first() == args[0] ? args.slice(1).join(' ') : args.join(' ');
+    webhook.send(content);
   }
 }
