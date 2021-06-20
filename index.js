@@ -42,7 +42,7 @@ if(msg.author.bot || !msg.content.startsWith('-')) return;
   catch (error) {
     //log an error to a channel
     msg.channel.send(':x: an error hass occured!');
-    client.channels.cache.get('855660429069647873').send(`command name: ${cmd}\nError message: \`\`\`\n ${error}\`\`\``):
+    client.channels.cache.get('855660429069647873').send(`command name: ${cmd}\nError message: \`\`\`\n ${error}\`\`\``);
   }
   
 })
