@@ -33,7 +33,7 @@ client.on('ready', () => { console.log('ready') });
 client.on('message', msg => {
 if(msg.author.bot || !msg.content.startsWith('-')) return;
   const args = msg.content.slice('-'.length).trim().split(/ +/);
-  const cmd = args.shft().toLowerCase();
+  const cmd = args.shift().toLowerCase();
   if(!client.commands.has(cmd)) return;
   
   try {
