@@ -6,5 +6,6 @@ module.exports = {
     const webhook = await targetChannel.createWebhook(client.user.username, { avatar: client.user.avatar });
     const content = message.mentions.channels.first() == args[0] ? args.slice(1).join(' ') : args.join(' ');
     webhook.send(content);
+    console.log(targetChannel)
   }
 }
