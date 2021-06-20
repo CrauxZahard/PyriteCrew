@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const database = require('dbdjs.db');
 const fs = require('fs');
-process.env["NODE_CONFIG_DIR'] = './configuration/';
+process.env['NODE_CONFIG_DIR'] = './configuration/';
 const config = require('config');
 
 ///database setup
