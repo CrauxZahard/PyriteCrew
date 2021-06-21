@@ -42,13 +42,13 @@ client.getUser = (args) => {
 	}
 }
 
-client.getChannel = (args) => {
+client.getChannel = (args, guild) => {
   if (!args) return;
 
 	if (args.startsWith('<#') && args.endsWith('>')) {
 		args = args.slice(2, -1);
 
-		return client.users.cache.get(args);
+		return guild.channels.cache.get(args);
 	}
 }
 //end of some util function
