@@ -2,8 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const database = require('dbdjs.db');
 const fs = require('fs');
-process.env['NODE_CONFIG_DIR'] = './configuration/';
-const config = require('config');
+const token = require('./configuration/token.json');
 
 ///database setup
 const db = new database.Database({
@@ -49,4 +48,4 @@ if(msg.author.bot || !msg.content.startsWith('-')) return;
   
 })
 
-client.login(config.get('token'));
+client.login(token.token);
