@@ -28,6 +28,31 @@ for(const file of commandFile) {
 }
 //end of command handler
 
+//some  util function
+client.getUser = (args) => {
+  if (!args) return;
+
+	if (args.startsWith('<@') && args.endsWith('>')) {
+		args = args.slice(2, -1);
+
+		if (args.startsWith('!')) {
+			args = args.slice(1);
+		}
+		return client.users.cache.get(args);
+	}
+}
+
+client.getChannel = (args) => {
+  if (!args) return;
+
+	if (args.startsWith('<#') && args.endsWith('>')) {
+		args = args.slice(2, -1);
+
+		return client.users.cache.get(args);
+	}
+}
+//end of some util function
+
 client.on('ready', () => { console.log('ready') });
 
 client.on('message', msg => {
