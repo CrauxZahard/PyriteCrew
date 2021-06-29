@@ -73,4 +73,12 @@ if(msg.author.bot || !msg.content.startsWith('-')) return;
   
 })
 
+client.on('messageReactionAdd', async (reaction, user) => {
+  if(reaction.message.channel.id == '805023745977745448') {
+  const member = await reaction.message.guild.members.fetch(user.id)
+  
+  member.roles.add('805023874860187669')
+  }
+})
+
 client.login(token.token);
