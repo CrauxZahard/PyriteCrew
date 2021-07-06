@@ -1,6 +1,5 @@
-module.exports = {
-  name: 'warn',
-  run: async (client, message, args) => {
+module.exports.name = 'warn'
+module.exports.code = async (client, message, args) => {
     if(!message.member.permissions.has('MANAGE_MESSAGES')) return message.channel.send(':x: not enough permission! required permission: `MANAGE_MESSAGES`');
     const targetUser = client.getUser(args[0]);
     if(!targetUser) return message.channel.send('mention someone to warn!');
@@ -18,9 +17,7 @@ module.exports = {
       await client.db.set('main', `warn-${targetUser.id}`, {number: targetUser.number, reason: targetUser.reason})
     }
    
-    
-    
-    
+    /* warn action */ 
     if(targetUser.number == 1) {
       const mutedRole = message.guild.roles.cache.find(x => x.name.toLowerCase() == 'muted');
       targetUser.roles.add(mutedRole.id)
@@ -40,4 +37,3 @@ module.exports = {
       await client.db.delete('main', `warn-${targetUser.id}`)
     }
   }
-}
