@@ -5,4 +5,5 @@ module.exports = (client, database) => {
   })
   db.on('ready', () => console.log('database is ready'))
   db.connect()
+  client.db = db
 }
