@@ -1,5 +1,3 @@
-
-
 module.exports = async (client, message) => {
   if (message.author.bot || message.channel.type == 'dm') return;
   let prefix = '-';
@@ -8,9 +6,13 @@ module.exports = async (client, message) => {
     let args = message.content.slice(prefix.length).trim().split(/ +/g);
     let commandName = args.shift().toLowerCase();
     let cmd = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
+    let cooldown = await client.db.get('cooldown', `${message.author.id}-${cmd.name}`)
+    
+    if(!cooldown && cmd) {
+      await client.db.set('cooldown', `${message.author.id}-${cmd.name}`, 1)
+      }
     
     if(cmd) {
-      let cooldown = await client.db.get('cooldown', `${message.author.id}-${cmd.name}`)
       let time = Date.now();
       if (cooldown < time) {
         let cooldownTime = cmd.cooldown * 1000 || 3 * 1000;
