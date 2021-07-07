@@ -16,14 +16,14 @@ module.exports = async (client, message) => {
       
       let time = Date.now();
       cooldown = await client.db.get('cooldown', `${message.author.id}-${cmd.name}`)
-      if (cooldown > time) {
+      if (cooldown.value > time) {
         let cooldownTime = cmd.cooldown * 1000 || 3 * 1000;
         await cmd.code(client, message, args);
         client.db.set('cooldown', `${message.author.id}-${cmd.name}`, time + cooldownTime)
       }
       else {
         let cooldown = await client.db.get('cooldown', `${message.author.id}-${cmd.name}`)
-        let math = (cooldown - Date.now()) / 1000
+        let math = (cooldown.value - Date.now()) / 1000
         message.reply(`please wait ${math.toFixed(1)} second(s) before using this command again.`)
       }
     }
