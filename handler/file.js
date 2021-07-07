@@ -8,7 +8,7 @@ module.exports = client => {
   for (const folder of mainFolder) {
     const files = fs.readdirSync(`./commands/${folder}/`)
     for (const file of files) {
-      const command = require(`./commands/${folder}/${file}`)
+      const command = require(`../commands/${folder}/${file}`)
       client.commands.set(command.name, command)
       client.aliases.set(command.aliases, command.name)
     }
