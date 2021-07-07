@@ -10,7 +10,7 @@ module.exports = client => {
     for (const file of files) {
       const command = require(`../commands/${folder}/${file}`)
       client.commands.set(command.name, command)
-      command.aliases.forEach(alias => client.aliases.set(alias, command.name))
+      command.aliases?.forEach(alias => client.aliases.set(alias || undefined, command.name))
     }
   }
 }
