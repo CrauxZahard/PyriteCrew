@@ -14,6 +14,7 @@ module.exports = async (client, message) => {
     
     if(cmd) {
       let time = Date.now();
+      cooldown = await client.db.get('cooldown', `${message.author.id}-${cmd.name}`)
       if (cooldown < time) {
         let cooldownTime = cmd.cooldown * 1000 || 3 * 1000;
         await cmd.code(client, message, args);
