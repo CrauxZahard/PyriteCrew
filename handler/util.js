@@ -23,7 +23,7 @@ module.exports = client => {
 	  if (member.startsWith('<@') && member.endsWith('>')) {
 		  member = member.slice(2, -1)
 		  
-		  if (member.startsWith('!') {
+		  if (member.startsWith('!')) {
 		      member = member.slice(1)
 		      }
 		      
