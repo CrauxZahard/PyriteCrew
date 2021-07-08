@@ -1,3 +1,4 @@
+const ms = require('ms');
 module.exports = async (client, message) => {
   if (message.author.bot || message.channel.type == 'dm') return;
   let prefix = '-';
@@ -33,7 +34,7 @@ module.exports = async (client, message) => {
       
       /*else if user is on cooldown, give a message*/
       else {
-        const math = cooldown.value - Date.now()
+        const math = ms(cooldown.value - Date.now())
         message.reply(`please wait ${math.toFixed(1)} second(s) before using this command again.`)
       }
       
