@@ -35,7 +35,7 @@ module.exports = async (client, message) => {
       /*else if user is on cooldown, give a message*/
       else {
         const math = ms(cooldown.value - Date.now())
-        message.reply(`please wait ${math} second(s) before using this command again.`)
+        message.reply(`please wait ${math} before using this command again.`)
       }
       
     }
