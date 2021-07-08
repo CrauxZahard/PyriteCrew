@@ -16,8 +16,10 @@ module.exports.code = async (client, message, args) => {
     targetUser.reason = db.reason.push(args[1] ? args.slice(1) : 'no reason provided')
       await client.db.set('main', `warn-${targetUser.id}`, {number: targetUser.number, reason: targetUser.reason})
     }
+    
+    message.channel.send(`**${targetUser.tag}** has been warned by **${message.author.tag}**. Reason: ${args[1] ? args.slice(1) : 'no reason provided'}`)
    
-    /* warn action */ 
+    /* penalty */ 
     if(targetUser.number == 1) {
       const mutedRole = message.guild.roles.cache.find(x => x.name.toLowerCase() == 'muted');
       targetUser.roles.add(mutedRole.id)
