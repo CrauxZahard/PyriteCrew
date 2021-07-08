@@ -1,12 +1,17 @@
 module.exports = client => {
-  client.getChannel = (channel, guild) => {
+  client.getChannel = async (channel, guild) => {
          if (!channel || !guild) return;
          if (channel.startsWith('<#') && channel.endsWith('>')) {
       channel = channel.slice(2, -1)
-      return guild.channels.cache.get(channel)
+      let result = guild.channels.cache.get(channel);
+	 if (!result) {
+		await guild.channels.fetch(channel)
+		result = guild.channels.cache.get(channel)
+	}
+		 return result
     }
   },
-  client.getUser = user => {
+  client.getUser = async user => {
 	  if (!user) return;
 	  if (user.startsWith('<@') && user.endsWith('>')) {
 		user = user.slice(2, -1);
@@ -15,10 +20,15 @@ module.exports = client => {
 			user = user.slice(1);
 		}
 
-		return client.users.cache.get(user);
+		let result = client.users.cache.get(user);
+		if (!result) {
+			await client.users.fetch(user)
+			result = client.users.cache.get(user);
+		}
+		  return result
 	 }
   },
-  client.getMember = (member, guild) => {
+  client.getMember = async (member, guild) => {
 	  if (!member || !guild) return;
 	  if (member.startsWith('<@') && member.endsWith('>')) {
 		  member = member.slice(2, -1)
@@ -27,7 +37,12 @@ module.exports = client => {
 		      member = member.slice(1)
 		      }
 		      
-		      return guild.members.cache.get(member);
+		      let result = guild.members.cache.get(member);
+		if (!result) {
+			await guild.members.fetch(member)
+			result = guild.members.cache.get(member);
+		}
+		  return result
 	  }
   }
 }
