@@ -17,7 +17,7 @@ module.exports.code = async (client, message, args) => {
       await client.db.set('main', `warn-${targetUser.id}`, {number: targetUser.number, reason: targetUser.reason})
     }
     
-    message.channel.send(`**${targetUser.tag}** has been warned by **${message.author.tag}**. Reason: ${args[1] ? args.slice(1) : 'no reason provided'}`)
+    message.channel.send(`**${targetUser.user.tag}** has been warned by **${message.author.tag}**. Reason: ${args[1] ? args.slice(1) : 'no reason provided'}`)
    
     /* penalty */ 
     if(targetUser.number == 1) {
