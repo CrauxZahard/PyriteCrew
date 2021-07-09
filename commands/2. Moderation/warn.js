@@ -3,6 +3,8 @@ module.exports.code = async (client, message, args) => {
     if(!message.member.permissions.has('MANAGE_MESSAGES')) return message.channel.send(':x: not enough permission! required permission: `MANAGE_MESSAGES`');
     const targetUser = client.getUser(args[0], message.guild);
     const member = message.guild.members.cache.get(targetUser.id);
+    console.log(`targetUser: ${targetUser}/n/nMember:${member}`);
+    
     if(!targetUser) return message.channel.send('mention someone to warn!');
     
     let db = await client.db.get('main', `warn-${targetUser.id}`);
