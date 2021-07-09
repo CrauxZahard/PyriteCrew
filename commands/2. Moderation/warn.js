@@ -1,7 +1,8 @@
 module.exports.name = 'warn'
 module.exports.code = async (client, message, args) => {
     if(!message.member.permissions.has('MANAGE_MESSAGES')) return message.channel.send(':x: not enough permission! required permission: `MANAGE_MESSAGES`');
-    const targetUser = client.getMember(args[0], message.guild);
+    const targetUser = client.getUser(args[0], message.guild);
+    const member = message.guild.members.cache.get(targetUser.id);
     if(!targetUser) return message.channel.send('mention someone to warn!');
     
     let db = await client.db.get('main', `warn-${targetUser.id}`);
@@ -17,25 +18,25 @@ module.exports.code = async (client, message, args) => {
       await client.db.set('main', `warn-${targetUser.id}`, {number: targetUser.number, reason: targetUser.reason})
     }
     
-    message.channel.send(`**${targetUser.user.tag}** has been warned by **${message.author.tag}**. Reason: ${args[1] ? args.slice(1) : 'no reason provided'}`)
+    message.channel.send(`**${targetUser.tag}** has been warned by **${message.author.tag}**. Reason: ${args[1] ? args.slice(1) : 'no reason provided'}`)
    
     /* penalty */ 
     if(targetUser.number == 1) {
       const mutedRole = message.guild.roles.cache.find(x => x.name.toLowerCase() == 'muted');
-      targetUser.roles.add(mutedRole.id)
+      member.roles.add(mutedRole.id)
       setTimeout(() => {
-      targetUser.roles.remove(mutedRole.id)
+      member.roles.remove(mutedRole.id)
       }, 1000 * 3600)
     }
     else if(targetUser.number == 2) {
       const mutedRole = message.guild.roles.cache.find(x => x.name.toLowerCase() == 'muted');
-      targetUser.roles.add(mutedRole.id)
+      member.roles.add(mutedRole.id)
       setTimeout(() => {
-      targetUser.roles.remove(mutedRole.id)
+      member.roles.remove(mutedRole.id)
       }, 1000 * 3600 * 24)
     }
     else {
-      await targetUser.kick()
+      await member.kick()
       await client.db.delete('main', `warn-${targetUser.id}`)
     }
   }
