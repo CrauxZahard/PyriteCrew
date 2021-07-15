@@ -6,27 +6,14 @@ module.exports.code = async (client, message, args) => {
 
     if(!targetUser) return message.channel.send('mention someone to warn!');
     
-    let db = await client.db.get('main', `warn-${targetUser.id}`);
+    let db = client.db.get(`warn-${targetUser.id}`);
+   
+    client.db.add(`warn-${targetUser.id}.number`, 1);
+    client.db.push(`warn-${targetUser.id}.reason`, args[1] ? args.slice(1).join(' ') : 'no reason provided');
     
-    if (!db) {
-      targetUser.number = 1
-      targetUser.reason = []
-  
-      let reason = args[1] ? args.slice(1) : 'no reason provided'
-      targetUser.reason.push(reason)
-      await client.db.set('main', `warn-${targetUser.id}`, {number: 1, reason: targetUser.reason})
-    }
-    else {
-    targetUser.number = db.value.number + 1;
-    db.value.reason.push(args[1] ? args.slice(1) : 'no reason provided')
-    targetUser.reason = db.value.reason
-      await client.db.set('main', `warn-${targetUser.id}`, {number: targetUser.number, reason: targetUser.reason})
-    }
-    /* testing things */
-    console.log(targetUser)
- 
+    targetUser.number = client.db.get(`warn-${targetUser.id}.number`);
     
-    message.channel.send(`**${targetUser.tag}** has been warned by **${message.author.tag}**. Reason: ${args[1] ? args.slice(1) : 'no reason provided'}`)
+    message.channel.send(`**${targetUser.tag}** has been warned by **${message.author.tag}**. Reason: ${args[1] ? args.slice(1).join(' ') : 'no reason provided'}`)
    
     /* penalty */ 
     if(targetUser.number == 1) {
@@ -45,6 +32,6 @@ module.exports.code = async (client, message, args) => {
     }
     else {
       await member.kick()
-      await client.db.delete('main', `warn-${targetUser.id}`)
+      client.db.delete(`warn-${targetUser.id}`)
     }
   }
