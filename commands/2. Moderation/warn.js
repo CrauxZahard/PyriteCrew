@@ -14,8 +14,9 @@ module.exports.code = async (client, message, args) => {
       await client.db.set('main', `warn-${targetUser.id}`, {number: 1, reason: targetUser.reason})
     }
     else {
-    targetUser.number = db.number + 1
-    targetUser.reason = db.reason.push(args[1] ? args.slice(1) : 'no reason provided')
+    targetUser.number = db.value.number + 1;
+    db.value.reason.push(args[1] ? args.slice(1) : 'no reason provided')
+    targetUser.reason = db.value.reason
       await client.db.set('main', `warn-${targetUser.id}`, {number: targetUser.number, reason: targetUser.reason})
     }
     
