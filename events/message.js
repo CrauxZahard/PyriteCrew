@@ -8,18 +8,18 @@ module.exports = async (client, message) => {
     let commandName = args.shift().toLowerCase();
     let cmd = client.commands.get(commandName) || client.commands.get(client.aliases.get(commandName));
     
-    /*if args[0] is a commmand name/alias, execute it*/
+    /* if args[0] is a commmand name/alias, execute it */
     if(cmd) {
-      let cooldown = await client.db.get('cooldown', `${message.author.id}-${cmd.name}`)
+      let cooldown = client.db.get(`${message.author.id}-${cmd.name}.timestamp`)
       
       /*if user's cooldown is not in the database, set it*/
       if(!cooldown) {
-        await client.db.set('cooldown', `${message.author.id}-${cmd.name}`, Date.now())
-        cooldown = await client.db.get('cooldown', `${message.author.id}-${cmd.name}`)
+        client.db.add(`${message.author.id}-${cmd.name}.timestamp`, Date.now())
+        cooldown = client.db.get(`${message.author.id}-${cmd.name}.timestamp`)
       }
       
       /*if cooldown time (in ms) is smaller than current date (in ms), execute the command*/
-      if(cooldown.value <= Date.now()) {
+      if(cooldown <= Date.now()) {
         let cooldownAmount = cmd.cooldown * 1000 || 3 * 1000
         try {
           cmd.code(client, message, args)
@@ -28,13 +28,13 @@ module.exports = async (client, message) => {
           console.log(e)
         }
         finally {
-          await client.db.set('cooldown', `${message.author.id}-${cmd.name}`, Date.now() + cooldownAmount)
+          client.db.add(`${message.author.id}-${cmd.name}.timestamp`, cooldownAmount)
         }
       }
       
       /*else if user is on cooldown, give a message*/
       else {
-        const math = ms(cooldown.value - Date.now())
+        const math = ms(cooldown - Date.now())
         message.reply(`please wait ${math} before using this command again.`)
       }
       
